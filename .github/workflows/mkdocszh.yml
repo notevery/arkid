@@ -26,5 +26,13 @@ jobs:
           python-version: 3.8
       - run: pip install --disable-pip-version-check -r requirements.txt;
       - run: python manage.py migrate
-      - run: mkdocs gh-deploy -f docs/zh/mkdocs.yml -b gh-page-zh --force
-      - run: mkdocs gh-deploy -f docs/en/mkdocs.yml -b gh-page-en --force
+      - run: mkdocs build -f docs/zh/mkdocs.yml -d site/zh
+      - run: mkdocs build -f docs/en/mkdocs.yml -d site/en
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+            GITHUB_TOKEN: ${{ secrets.NOTEVERY_TEST_TOKEN }}
+        with:
+            email: jiashuai@longguikeji.com
+            build_dir: site
+            branch: gh-pages
