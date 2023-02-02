@@ -28,11 +28,12 @@ jobs:
       - run: python manage.py migrate
       - run: mkdocs build -f docs/zh/mkdocs.yml -d site/zh
       - run: mkdocs build -f docs/en/mkdocs.yml -d site/en
+      - run: cp -r docs/en/site/zh/* docs/en/site/
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
             GITHUB_TOKEN: ${{ secrets.NOTEVERY_TEST_TOKEN }}
         with:
             email: jiashuai@longguikeji.com
-            build_dir: site
+            build_dir: docs/en/site
             branch: gh-pages
